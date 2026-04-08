@@ -1,0 +1,31 @@
+.app-container {
+  @apply min-h-screen transition-all duration-700 p-4 md:p-8 font-sans selection:bg-blue-100 selection:text-blue-700 relative;
+}
+
+.bg-glow-container {
+  @apply fixed inset-0 overflow-hidden pointer-events-none;
+}
+
+.bg-glow-blue {
+  @apply absolute -top-24 -left-24 w-96 h-96 rounded-full blur-[120px] opacity-20;
+}
+
+.bg-glow-emerald {
+  @apply absolute -bottom-24 -right-24 w-96 h-96 rounded-full blur-[120px] opacity-20;
+}
+
+.main-header {
+  @apply flex items-center justify-between relative z-10 mb-8;
+}
+
+.header-icon-container {
+  @apply p-3.5 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl shadow-xl shadow-blue-500/20 transition-transform duration-500;
+}
+
+.theme-toggle-btn {
+  @apply p-3 rounded-2xl transition-all duration-500 hover:scale-110 active:scale-95 shadow-xl;
+}
+
+.main-content-wrapper {
+  @apply shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] rounded-[2.5rem] overflow-hidden border backdrop-blur-3xl relative z-10 w-full;
+}

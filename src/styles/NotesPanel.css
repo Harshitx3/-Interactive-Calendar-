@@ -1,0 +1,39 @@
+.notes-panel-container {
+  @apply rounded-[2rem] shadow-2xl p-6 md:p-8 flex flex-col h-full transition-all duration-700 overflow-hidden min-w-0 w-full;
+}
+
+.notes-header {
+  @apply flex flex-col gap-6 mb-10 flex-shrink-0 min-w-0;
+}
+
+.save-btn {
+  @apply flex items-center gap-2 px-4 md:px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl transition-all font-black text-[10px] md:text-xs uppercase tracking-widest shadow-lg shadow-blue-500/20 active:scale-95 whitespace-nowrap;
+}
+
+.range-label {
+  @apply text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-xl border transition-all truncate max-w-full;
+}
+
+.notes-textarea {
+  @apply w-full p-5 border rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none resize-none font-medium h-40 transition-all text-sm leading-relaxed block;
+}
+
+.captured-badge {
+  @apply absolute bottom-4 right-4 transition-all duration-500 transform;
+}
+
+.history-section {
+  @apply flex flex-col gap-6 overflow-hidden flex-1;
+}
+
+.history-list {
+  @apply overflow-y-auto pr-2 space-y-4 custom-scrollbar;
+}
+
+.note-card {
+  @apply group relative flex flex-col p-5 rounded-[1.5rem] border transition-all duration-300 cursor-pointer;
+}
+
+.note-card-active-bar {
+  @apply absolute -right-1 top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)];
+}

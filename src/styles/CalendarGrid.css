@@ -1,0 +1,35 @@
+.calendar-grid-container {
+  @apply w-full transition-all duration-500 overflow-hidden;
+}
+
+.selection-info-bar {
+  @apply mb-6 h-12 flex items-center justify-between px-2;
+}
+
+.selection-pill {
+  @apply px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center gap-2 border;
+}
+
+.pulse-dot {
+  @apply w-2 h-2 rounded-full animate-pulse;
+}
+
+.selection-divider {
+  @apply h-px w-4;
+}
+
+.days-header {
+  @apply grid grid-cols-7 mb-4;
+}
+
+.day-header-cell {
+  @apply text-center text-[10px] font-black uppercase tracking-[0.2em] pb-3 transition-colors;
+}
+
+.calendar-main-grid {
+  @apply grid grid-cols-7 border-t border-l rounded-3xl overflow-hidden transition-all duration-500;
+}
+
+.grid-cell-wrapper {
+  @apply border-r border-b transition-colors;
+}

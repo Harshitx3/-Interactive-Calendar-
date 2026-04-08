@@ -24,42 +24,47 @@ const CalendarGrid = ({ currentMonth, startDate, endDate, onSelectDate, darkMode
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   return (
-    <div className={`w-full p-4 md:p-8 rounded-b-2xl shadow-xl border transition-colors duration-500 ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
+    <div className="w-full transition-all duration-500 overflow-hidden">
       {/* Selection Info */}
-      <div className="mb-6 h-8 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm font-medium">
-          {startDate && (
-            <div className="flex items-center gap-2">
-              <span className={`px-3 py-1 rounded-full ${darkMode ? 'bg-blue-900/50 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>
+      <div className="mb-6 h-12 flex items-center justify-between px-2">
+        <div className="flex items-center gap-3">
+          {startDate ? (
+            <div className="flex items-center gap-2 animate-in slide-in-from-left-4 duration-500">
+              <div className={`px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center gap-2 border ${darkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-100'}`}>
+                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
                 {format(startDate, 'MMM d, yyyy')}
-              </span>
+              </div>
               {endDate && (
                 <>
-                  <span className={darkMode ? 'text-slate-600' : 'text-slate-400'}>→</span>
-                  <span className={`px-3 py-1 rounded-full ${darkMode ? 'bg-emerald-900/50 text-emerald-300' : 'bg-emerald-100 text-emerald-700'}`}>
+                  <div className={`h-px w-4 ${darkMode ? 'bg-slate-700' : 'bg-slate-200'}`} />
+                  <div className={`px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center gap-2 border ${darkMode ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-100'}`}>
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     {format(endDate, 'MMM d, yyyy')}
-                  </span>
+                  </div>
                 </>
               )}
             </div>
+          ) : (
+            <div className={`text-xs font-bold uppercase tracking-widest ${darkMode ? 'text-slate-600' : 'text-slate-400'}`}>
+              Select Range
+            </div>
           )}
         </div>
-        {!startDate && <p className={`text-sm ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>Select a date range</p>}
       </div>
 
       {/* Days Header */}
       <div className="grid grid-cols-7 mb-4">
         {weekDays.map((day) => (
-          <div key={day} className={`text-center text-xs font-bold uppercase tracking-wider pb-2 border-b transition-colors ${darkMode ? 'text-slate-500 border-slate-700' : 'text-slate-400 border-slate-100'}`}>
+          <div key={day} className={`text-center text-[10px] font-black uppercase tracking-[0.2em] pb-3 transition-colors ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
             {day}
           </div>
         ))}
       </div>
 
       {/* Grid */}
-      <div className={`grid grid-cols-7 border-l border-t rounded-lg overflow-hidden transition-colors ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
+      <div className={`grid grid-cols-7 border-t border-l rounded-3xl overflow-hidden transition-all duration-500 ${darkMode ? 'border-slate-800/50 bg-slate-900/20' : 'border-slate-100 bg-slate-50/30'}`}>
         {days.map((day, idx) => (
-          <div key={day.toString()} className={`border-r border-b transition-colors ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
+          <div key={day.toString()} className={`border-r border-b transition-colors ${darkMode ? 'border-slate-800/50' : 'border-slate-100'}`}>
             <DayCell
               day={day}
               currentMonth={currentMonth}

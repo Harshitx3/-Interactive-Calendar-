@@ -60,38 +60,42 @@ const App = () => {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-100 text-slate-900'} p-4 md:p-10 font-sans selection:bg-blue-100 selection:text-blue-700`}>
-      <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+    <div className={`min-h-screen transition-all duration-700 p-4 md:p-8 font-sans selection:bg-blue-100 selection:text-blue-700 relative overflow-x-hidden ${darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+      {/* Background Glow */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className={`absolute -top-24 -left-24 w-96 h-96 rounded-full blur-[120px] opacity-20 transition-colors duration-700 ${darkMode ? 'bg-blue-600' : 'bg-blue-400'}`} />
+        <div className={`absolute -bottom-24 -right-24 w-96 h-96 rounded-full blur-[120px] opacity-20 transition-colors duration-700 ${darkMode ? 'bg-emerald-600' : 'bg-emerald-400'}`} />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10 space-y-8 animate-in fade-in duration-1000">
         
         {/* Header Title & Controls */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-blue-600 rounded-2xl shadow-lg shadow-blue-200">
-              <CalendarIcon className="text-white" size={28} />
+        <header className="flex items-center justify-between relative z-10 mb-8">
+          <div className="flex items-center gap-4 group">
+            <div className="p-3.5 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl shadow-xl shadow-blue-500/20 transition-transform duration-500 group-hover:scale-110">
+              <CalendarIcon className="text-white animate-float" size={28} />
             </div>
             <div>
-              <h1 className="text-2xl font-black tracking-tight">Interactive Calendar</h1>
-              <p className={`text-sm font-semibold uppercase tracking-widest ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>Digital Wall Calendar</p>
+              <h1 className="text-3xl font-black tracking-tighter leading-none">Interactive Calendar</h1>
+              <p className={`text-[10px] font-black uppercase tracking-[0.3em] mt-1.5 ${darkMode ? 'text-blue-400/80' : 'text-blue-600/60'}`}>Digital Experience</p>
             </div>
           </div>
           
           <button
             onClick={toggleDarkMode}
-            className={`p-3 rounded-xl transition-all duration-300 ${darkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-white text-slate-600 hover:bg-slate-50 shadow-md'}`}
+            className={`p-3 rounded-2xl transition-all duration-500 glass-effect hover:scale-110 active:scale-95 shadow-xl ${darkMode ? 'text-yellow-400' : 'text-slate-600'}`}
           >
             {darkMode ? <Sun size={24} /> : <Moon size={24} />}
           </button>
-        </div>
+        </header>
 
-        {/* Hero Section */}
-        <div className={`shadow-2xl rounded-2xl overflow-hidden ring-1 ${darkMode ? 'ring-slate-800' : 'ring-slate-200'}`}>
+        
+        <main className={`shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] rounded-[2.5rem] overflow-hidden border backdrop-blur-3xl relative z-10 w-full transition-all duration-700 ${darkMode ? 'border-slate-800 bg-slate-900/40' : 'border-white bg-white/40'}`}>
           <HeroSection currentMonth={currentMonth} />
           
-          {/* Main Layout Grid */}
-          <div className={`grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 md:p-8 transition-colors duration-500 ${darkMode ? 'bg-slate-800/50' : 'bg-white'}`}>
-            
-            {/* Notes Section - Left Column (30% on desktop) */}
-            <div className="lg:col-span-4 h-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 md:p-10">
+            {/* Notes Section */}
+            <div className="lg:col-span-5 xl:col-span-4 h-full min-w-0">
               <NotesPanel 
                 darkMode={darkMode} 
                 startDate={startDate} 
@@ -100,29 +104,29 @@ const App = () => {
               />
             </div>
 
-            {/* Calendar Section - Right Column (70% on desktop) */}
-            <div className="lg:col-span-8">
-              <div className="flex flex-col gap-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold">Month View</h2>
-                  <div className={`flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full border transition-colors ${darkMode ? 'bg-slate-800 text-slate-400 border-slate-700' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>
-                    <Info size={14} />
-                    <span>Click twice to select a range</span>
-                  </div>
+            {/* Calendar Section */}
+            <div className="lg:col-span-7 xl:col-span-8 space-y-8 min-w-0">
+              <div className="flex items-end justify-between px-2">
+                <div className="space-y-1">
+                  <h2 className="text-2xl font-black tracking-tight">Month View</h2>
+                  <div className={`h-1 w-12 rounded-full bg-blue-500/50`} />
                 </div>
-                
-                <CalendarGrid 
-                  currentMonth={currentMonth} 
-                  startDate={startDate} 
-                  endDate={endDate} 
-                  onSelectDate={handleSelectDate}
-                  darkMode={darkMode}
-                />
+                <div className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full border transition-all ${darkMode ? 'bg-slate-900/80 text-slate-500 border-slate-800' : 'bg-white/80 text-slate-400 border-slate-200'} backdrop-blur-md`}>
+                  <Info size={12} className="text-blue-500" />
+                  <span>Dual-Click Selection</span>
+                </div>
               </div>
+              
+              <CalendarGrid 
+                currentMonth={currentMonth} 
+                startDate={startDate} 
+                endDate={endDate} 
+                onSelectDate={handleSelectDate}
+                darkMode={darkMode}
+              />
             </div>
           </div>
-        </div>
-
+        </main>
       </div>
     </div>
   );

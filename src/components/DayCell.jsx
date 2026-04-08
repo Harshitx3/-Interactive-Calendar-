@@ -26,28 +26,34 @@ const DayCell = ({
     <button
       onClick={() => onSelectDate(day)}
       className={cn(
-        "relative h-12 md:h-16 flex items-center justify-center text-sm md:text-base transition-all duration-200 group overflow-hidden",
-        !isCurrentMonth && (darkMode ? "text-slate-700 pointer-events-none" : "text-slate-200 pointer-events-none"),
-        isCurrentMonth && (darkMode ? "hover:bg-slate-700/50 cursor-pointer" : "hover:bg-blue-50 cursor-pointer"),
-        isWeekendDay && isCurrentMonth && (darkMode ? "bg-slate-900/30" : "bg-slate-50/50"),
-        isInRange && (darkMode ? "bg-blue-900/30" : "bg-blue-100/60"),
-        isSelectedStart && "bg-blue-600 text-white rounded-l-lg hover:bg-blue-700 shadow-md scale-105 z-10",
-        isSelectedEnd && "bg-emerald-600 text-white rounded-r-lg hover:bg-emerald-700 shadow-md scale-105 z-10",
-        isSelectedStart && isSelectedEnd && "rounded-lg"
+        "relative h-14 md:h-20 flex flex-col items-center justify-center transition-all duration-300 group overflow-hidden",
+        !isCurrentMonth && (darkMode ? "opacity-10 pointer-events-none" : "opacity-20 pointer-events-none"),
+        isCurrentMonth && "cursor-pointer",
+        isWeekendDay && isCurrentMonth && (darkMode ? "bg-slate-800/20" : "bg-slate-100/30"),
+        isInRange && (darkMode ? "bg-blue-600/20" : "bg-blue-100/50"),
+        isSelectedStart && "bg-blue-600 text-white z-10 shadow-[0_0_20px_rgba(37,99,235,0.4)]",
+        isSelectedEnd && "bg-emerald-600 text-white z-10 shadow-[0_0_20px_rgba(16,185,129,0.4)]",
+        isSelectedStart && !isSelectedEnd && "rounded-l-2xl",
+        isSelectedEnd && !isSelectedStart && "rounded-r-2xl",
+        isSelectedStart && isSelectedEnd && "rounded-2xl scale-95"
       )}
     >
       <span className={cn(
-        "relative z-20 font-medium",
-        isToday && !isSelectedStart && !isSelectedEnd && (darkMode ? "text-blue-400 font-bold underline decoration-2 underline-offset-4" : "text-blue-600 font-bold underline decoration-2 underline-offset-4")
+        "relative z-20 text-sm md:text-base font-black tracking-tighter transition-colors",
+        isToday && !isSelectedStart && !isSelectedEnd && "text-blue-500"
       )}>
         {format(day, 'd')}
       </span>
       
+      {isToday && !isSelectedStart && !isSelectedEnd && (
+        <div className="absolute bottom-3 w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+      )}
+      
       {/* Subtle hover effect */}
       {isCurrentMonth && !isSelectedStart && !isSelectedEnd && (
         <div className={cn(
-          "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity",
-          darkMode ? "bg-slate-700/50" : "bg-blue-50"
+          "absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300",
+          darkMode ? "bg-white/5" : "bg-blue-600/5"
         )} />
       )}
     </button>

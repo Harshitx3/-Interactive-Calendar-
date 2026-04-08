@@ -1,0 +1,46 @@
+.day-cell-btn {
+  position: relative;
+  height: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .day-cell-btn {
+    height: 5rem;
+  }
+}
+
+.day-number {
+  @apply relative z-20 text-sm md:text-base font-black tracking-tighter transition-colors;
+}
+
+.today-indicator {
+  @apply absolute bottom-3 w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse;
+}
+
+.day-hover-bg {
+  @apply absolute inset-0 opacity-0 transition-all duration-300;
+}
+
+.day-cell-btn:hover .day-hover-bg {
+  @apply opacity-100;
+}
+
+.day-selected-start {
+  @apply bg-blue-600 text-white z-10 shadow-[0_0_20px_rgba(37,99,235,0.4)];
+}
+
+.day-selected-end {
+  @apply bg-emerald-600 text-white z-10 shadow-[0_0_20px_rgba(16,185,129,0.4)];
+}
+
+.day-in-range {
+  @apply transition-colors duration-300;
+}
