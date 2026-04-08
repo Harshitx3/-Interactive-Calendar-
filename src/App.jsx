@@ -1,14 +1,35 @@
-import React, { useState } from 'react';
-import { isBefore, isSameDay } from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import { isBefore, isSameDay, format } from 'date-fns';
 import HeroSection from './components/HeroSection';
 import CalendarGrid from './components/CalendarGrid';
 import NotesPanel from './components/NotesPanel';
-import { Calendar as CalendarIcon, Info } from 'lucide-react';
+import { Calendar as CalendarIcon, Info, Moon, Sun } from 'lucide-react';
 
 const App = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Load dark mode preference
+  useEffect(() => {
+    const isDark = localStorage.getItem('calendar-dark-mode') === 'true';
+    setDarkMode(isDark);
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem('calendar-dark-mode', newMode);
+    if (newMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   const handleSelectDate = (date) => {
     // 1st click: set start date
@@ -34,38 +55,47 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 p-4 md:p-10 font-sans selection:bg-blue-100 selection:text-blue-700">
+    <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-100 text-slate-900'} p-4 md:p-10 font-sans selection:bg-blue-100 selection:text-blue-700`}>
       <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
         
-        {/* Header Title (Hidden on small screens) */}
-        <div className="hidden md:flex items-center gap-3 mb-4">
-          <div className="p-3 bg-blue-600 rounded-2xl shadow-lg shadow-blue-200">
-            <CalendarIcon className="text-white" size={28} />
+        {/* Header Title & Controls */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-blue-600 rounded-2xl shadow-lg shadow-blue-200">
+              <CalendarIcon className="text-white" size={28} />
+            </div>
+            <div>
+              <h1 className="text-2xl font-black tracking-tight">Interactive Calendar</h1>
+              <p className={`text-sm font-semibold uppercase tracking-widest ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>Digital Wall Calendar</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-black text-slate-800 tracking-tight">Interactive Calendar</h1>
-            <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest">Digital Wall Calendar</p>
-          </div>
+          
+          <button
+            onClick={toggleDarkMode}
+            className={`p-3 rounded-xl transition-all duration-300 ${darkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-white text-slate-600 hover:bg-slate-50 shadow-md'}`}
+          >
+            {darkMode ? <Sun size={24} /> : <Moon size={24} />}
+          </button>
         </div>
 
         {/* Hero Section */}
-        <div className="shadow-2xl rounded-2xl overflow-hidden ring-1 ring-slate-200">
+        <div className={`shadow-2xl rounded-2xl overflow-hidden ring-1 ${darkMode ? 'ring-slate-800' : 'ring-slate-200'}`}>
           <HeroSection currentMonth={currentMonth} />
           
           {/* Main Layout Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 md:p-8 bg-white">
+          <div className={`grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 md:p-8 transition-colors duration-500 ${darkMode ? 'bg-slate-800/50' : 'bg-white'}`}>
             
             {/* Notes Section - Left Column (30% on desktop) */}
             <div className="lg:col-span-4 h-full">
-              <NotesPanel />
+              <NotesPanel darkMode={darkMode} />
             </div>
 
             {/* Calendar Section - Right Column (70% on desktop) */}
             <div className="lg:col-span-8">
               <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-slate-800">Month View</h2>
-                  <div className="flex items-center gap-2 text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100">
+                  <h2 className="text-xl font-bold">Month View</h2>
+                  <div className={`flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full border transition-colors ${darkMode ? 'bg-slate-800 text-slate-400 border-slate-700' : 'bg-slate-50 text-slate-400 border-slate-100'}`}>
                     <Info size={14} />
                     <span>Click twice to select a range</span>
                   </div>
@@ -75,7 +105,8 @@ const App = () => {
                   currentMonth={currentMonth} 
                   startDate={startDate} 
                   endDate={endDate} 
-                  onSelectDate={handleSelectDate} 
+                  onSelectDate={handleSelectDate}
+                  darkMode={darkMode}
                 />
               </div>
             </div>
@@ -84,7 +115,7 @@ const App = () => {
 
         {/* Footer Info */}
         <footer className="text-center pt-8">
-          <p className="text-sm font-medium text-slate-400">
+          <p className={`text-sm font-medium ${darkMode ? 'text-slate-600' : 'text-slate-400'}`}>
             &copy; 2026 Interactive Wall Calendar. Built with React & Tailwind CSS.
           </p>
         </footer>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Save, CheckCircle2 } from 'lucide-react';
 
-const NotesPanel = () => {
+const NotesPanel = ({ darkMode }) => {
   const [notes, setNotes] = useState('');
   const [isSaved, setIsSaved] = useState(false);
 
@@ -20,9 +20,9 @@ const NotesPanel = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 flex flex-col h-full">
+    <div className={`rounded-2xl shadow-xl border p-6 flex flex-col h-full transition-colors duration-500 ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+        <h3 className={`text-xl font-bold flex items-center gap-2 ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>
           Monthly Notes
         </h3>
         <button
@@ -35,14 +35,14 @@ const NotesPanel = () => {
       </div>
 
       <textarea
-        className="flex-1 w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none bg-slate-50/50 text-slate-700 font-medium"
+        className={`flex-1 w-full p-4 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none font-medium transition-colors ${darkMode ? 'bg-slate-900 border-slate-700 text-slate-300 placeholder-slate-600' : 'bg-slate-50/50 border-slate-200 text-slate-700 placeholder-slate-400'}`}
         placeholder="Write your monthly thoughts here..."
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
       />
 
       <div className={`mt-4 transition-all duration-300 transform ${isSaved ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
-        <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-lg border border-emerald-100 w-fit">
+        <div className={`flex items-center gap-2 px-4 py-2 rounded-lg border w-fit ${darkMode ? 'text-emerald-400 bg-emerald-900/20 border-emerald-900/50' : 'text-emerald-600 bg-emerald-50 border-emerald-100'}`}>
           <CheckCircle2 size={18} />
           <span className="text-sm font-semibold">Notes saved to local storage</span>
         </div>
