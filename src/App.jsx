@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { isBefore, isSameDay, format } from 'date-fns';
 import HeroSection from './components/HeroSection';
 import CalendarGrid from './components/CalendarGrid';
@@ -10,13 +10,19 @@ const App = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
+  const [allNotes, setAllNotes] = useState([]);
 
-  // Load dark mode preference
+  // Load dark mode preference and notes
   useEffect(() => {
     const isDark = localStorage.getItem('calendar-dark-mode') === 'true';
     setDarkMode(isDark);
     if (isDark) {
       document.documentElement.classList.add('dark');
+    }
+
+    const savedNotes = localStorage.getItem('calendar-multi-notes');
+    if (savedNotes) {
+      setAllNotes(JSON.parse(savedNotes));
     }
   }, []);
 
@@ -30,6 +36,11 @@ const App = () => {
       document.documentElement.classList.remove('dark');
     }
   };
+
+  const updateNotes = useCallback((newNotes) => {
+    setAllNotes(newNotes);
+    localStorage.setItem('calendar-multi-notes', JSON.stringify(newNotes));
+  }, []);
 
   const handleSelectDate = (date) => {
     // 1st click: set start date
@@ -101,6 +112,8 @@ const App = () => {
                 startDate={startDate} 
                 endDate={endDate} 
                 onSelectRange={handleSelectRange}
+                allNotes={allNotes}
+                onUpdateNotes={updateNotes}
               />
             </div>
 
@@ -123,6 +136,7 @@ const App = () => {
                 endDate={endDate} 
                 onSelectDate={handleSelectDate}
                 darkMode={darkMode}
+                allNotes={allNotes}
               />
             </div>
           </div>

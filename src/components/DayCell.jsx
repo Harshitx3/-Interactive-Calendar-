@@ -13,7 +13,8 @@ const DayCell = ({
   startDate, 
   endDate, 
   onSelectDate,
-  darkMode
+  darkMode,
+  notes = []
 }) => {
   const isSelectedStart = startDate && isSameDay(day, startDate);
   const isSelectedEnd = endDate && isSameDay(day, endDate);
@@ -45,7 +46,25 @@ const DayCell = ({
         {format(day, 'd')}
       </span>
       
-      {isToday && !isSelectedStart && !isSelectedEnd && (
+      {/* Note Indicators */}
+      {isCurrentMonth && notes.length > 0 && (
+        <div className="absolute bottom-2 flex gap-0.5 justify-center w-full px-1 flex-wrap max-h-2 overflow-hidden">
+          {notes.slice(0, 4).map((_, i) => (
+            <div 
+              key={i} 
+              className={cn(
+                "w-1 h-1 rounded-full transition-colors",
+                (isSelectedStart || isSelectedEnd) ? "bg-white/80" : "bg-blue-500/60"
+              )} 
+            />
+          ))}
+          {notes.length > 4 && (
+            <div className={cn("w-1 h-1 rounded-full", (isSelectedStart || isSelectedEnd) ? "bg-white/40" : "bg-blue-300/40")} />
+          )}
+        </div>
+      )}
+
+      {isToday && !isSelectedStart && !isSelectedEnd && notes.length === 0 && (
         <div className="absolute bottom-3 w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
       )}
       

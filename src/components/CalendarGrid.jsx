@@ -6,11 +6,13 @@ import {
   endOfWeek, 
   eachDayOfInterval, 
   format,
-  isSameDay
+  isSameDay,
+  parse,
+  isWithinInterval
 } from 'date-fns';
 import DayCell from './DayCell';
 
-const CalendarGrid = ({ currentMonth, startDate, endDate, onSelectDate, darkMode }) => {
+const CalendarGrid = ({ currentMonth, startDate, endDate, onSelectDate, darkMode, allNotes }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDateInGrid = startOfWeek(monthStart, { weekStartsOn: 1 }); // Start on Monday
@@ -72,6 +74,13 @@ const CalendarGrid = ({ currentMonth, startDate, endDate, onSelectDate, darkMode
               endDate={endDate}
               onSelectDate={onSelectDate}
               darkMode={darkMode}
+              notes={allNotes.filter(n => {
+                if (n.dateKey === 'global') return false;
+                const parts = n.dateKey.split('-to-');
+                const start = parse(parts[0], 'yyyy-MM-dd', new Date());
+                const end = parts.length === 2 ? parse(parts[1], 'yyyy-MM-dd', new Date()) : start;
+                return isWithinInterval(day, { start, end });
+              })}
             />
           </div>
         ))}
