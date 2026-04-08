@@ -54,6 +54,11 @@ const App = () => {
     }
   };
 
+  const handleSelectRange = (start, end) => {
+    setStartDate(start);
+    setEndDate(end);
+  };
+
   return (
     <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-100 text-slate-900'} p-4 md:p-10 font-sans selection:bg-blue-100 selection:text-blue-700`}>
       <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
@@ -87,7 +92,12 @@ const App = () => {
             
             {/* Notes Section - Left Column (30% on desktop) */}
             <div className="lg:col-span-4 h-full">
-              <NotesPanel darkMode={darkMode} />
+              <NotesPanel 
+                darkMode={darkMode} 
+                startDate={startDate} 
+                endDate={endDate} 
+                onSelectRange={handleSelectRange}
+              />
             </div>
 
             {/* Calendar Section - Right Column (70% on desktop) */}
@@ -113,12 +123,6 @@ const App = () => {
           </div>
         </div>
 
-        {/* Footer Info */}
-        <footer className="text-center pt-8">
-          <p className={`text-sm font-medium ${darkMode ? 'text-slate-600' : 'text-slate-400'}`}>
-            &copy; 2026 Interactive Wall Calendar. Built with React & Tailwind CSS.
-          </p>
-        </footer>
       </div>
     </div>
   );
